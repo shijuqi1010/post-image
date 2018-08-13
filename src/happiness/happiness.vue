@@ -7,7 +7,7 @@
 
     <div class="search-form">
       <!-- <input v-modal="inputCode" class="search-input" placeholder="请输入四位搜索号码"> -->
-      <input class="search-input" placeholder="请输入四位搜索号码">
+      <input class="search-input" placeholder="请输入四位搜索号码..">
       <img class="search-btn" @click="search" src="../assets/demoIcon/搜索@3x.png" alt="">
     </div>
 
