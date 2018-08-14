@@ -1,10 +1,5 @@
 <template>
   <div class="share-body">
-    <div class="share-header">
-      <img class="back-btn" onclick="back" src="../assets/demoIcon/箭头@3x.png" alt="">
-      <!-- <span class="title">个人中心</span> -->
-    </div>
-
     <div class="des-info">
       <ul class="photo-list-info">
         <li class="user-info">
@@ -18,32 +13,43 @@
               </li>
             </ul>
           </div>
-          <div class="content-bottom">
-            <img class="praise" src="../assets/demoIcon/转发@3x.png" alt="点赞">
-          </div>
         </li>
+        <div class="content-bottom">
+          <img class="praise" src="../assets/demoIcon/heart.png" alt="点赞">
+          <span>123</span>
+        </div>
       </ul>
     </div>
 
     <div class="share-info">
-      <p class="title">照片将上传到社区与其他业主一起分享您生活的点滴</p>
-      <p class="explain-title">获赞前十名可获得礼品</p>
-      <p class="active-rule">活动规则</p>
-      <ul class="explain">
-        <li>1.每个社区点赞数前十名可获得豪礼</li>
-        <li>2.业主可邀请微信好友为自己点赞助力</li>
-        <li>3.在活动主页搜索我的幸运码为我点赞</li>
-        <li>4.活动时间为2018年09月22日至2018年10月21日</li>
-        <li>5.奥园物业保留法律范围内允许的对活动的解释权</li>
-      </ul>
+      <div class="download-title">
+        <img src="../assets/demoIcon/pink-heart.png" alt="">
+        <div class="download-text">下载奥悦家为好友点赞</div>
+      </div>
+      <div class="luck-container">
+        <img src="../assets/demoIcon/bg-luck-code.png" alt="">
+        <div class="luck-code">
+          <p class="code">幸运码</p>
+          <p>9999</p>
+        </div>
+        <div class="radius"></div>
+      </div>
+      <div class="active-rule">
+        <p class="rule-title">活动规则</p>
+        <ul class="explain">
+          <li>1.每个社区点赞数前十名可获得豪礼</li>
+          <li>2.业主可邀请微信好友为自己点赞助力</li>
+          <li>3.活动时间为2018年09月22日至2018年10月21日</li>
+          <li>4.奥园物业保留法律范围内允许的对活动的解释权</li>
+        </ul>
+      </div>
     </div>
-    
   </div>
 </template>
 
 <style scoped lang="less">
 .share-body{
-  width: 100%;
+  // width: 100%;
   margin: 0;
   padding: 0;
   position: absolute;
@@ -51,46 +57,30 @@
   // bottom: 0;
   left: 0;
   right: 0;
-  text-align: left;
+  text-align: center;
   overflow: hidden;
-  background: greenyellow;
-  .share-header{
-    z-index: 1000px;
-    position: relative;
-    height: 40px;
-    text-align: center;
-    border: 1px solid gold;
-    .back-btn{
-      position: absolute;
-      width: 20px;
-      height: 20px;
-      margin: 10px;
-      left: 10px;
-    }
-    .title{
-      line-height: 40px;
-    }
-  }
+  background-image: url(../assets/demoIcon/bg-share.jpg);
+  background-size: 100% 100%;
   .des-info{
-    border: 1px solid darkblue;
-    margin-top: 80px;
+    // border: 1px solid darkblue;
+    background: #FFFFFF;
+    border-radius: 16px;
+    // margin-top: 204px;
+    margin: 204px 10px 0 10px;
     text-align: left;
     list-style: none;
     display: flex;
     justify-content: space-between;
     .photo-list-info{
-      margin: 10px 20px 20px 20px;
+      margin: 10px 15px 0 15px;
+      width: 100%;
       // border: 1px solid pink;
       list-style: none;
       .user-info{
         position: relative;
         // border: 1px solid green;
-        // margin: 10px 20px 20px 20px;
-        // flex: 1;
-        // justify-content: convert;
         overflow: hidden;
-        padding: 15px 0 20px 0;
-        border-bottom: 1px solid #CECECE;
+        padding-top: 15px;
         .user-image{
           position: absolute;
           // margin-right: 15px;
@@ -103,7 +93,7 @@
           position: relative;
           margin-left: 50px;
           display: inline-block;
-          border: 1px solid blue;
+          // border: 1px solid blue;
           font-size: 12px;
           .user-name{
             line-height: 17px;
@@ -118,6 +108,7 @@
             // height: 90px;
             list-style: none;
             // display: flex;
+            // border: 1px solid aqua;
             li{
               display: inline-block;
               // flex: 1;
@@ -125,9 +116,9 @@
               overflow: hidden;
               // border: 0.1px solid aqua;
               .photo{
-                height: 68px;
+                height: 90px;
                 width: auto;
-                border:1px solid #4C618E;
+                // border:1px solid #4C618E;
               }
             }
             li:nth-child(2){
@@ -135,42 +126,120 @@
             }
           }
         }
-        .content-bottom{
-          margin-left: 50px;
-          margin-bottom: 10px;
-          border: 1px solid darkmagenta;
-          position: relative;
-          .praise{
-            width: 14px;
-            height: 14px;
-            position: absolute;
-            right: 0px;
-          }
+      }
+      .content-bottom{
+        float: right;
+        // margin-left: 50px;
+        margin-bottom: 20px;
+        font-size: 12px;
+        // border: 1px solid darkmagenta;
+        // position: relative;
+        .praise{
+          width: 15px;
+          height: 13px;
+          // position: absolute;
+          vertical-align: middle;
+          margin-right: 4px;
+        }
+        span{
+          right: 0px;
         }
       }
     }
   }
   .share-info{
-    border: 1px solid gray;
+    // border: 1px solid gray;
+    margin: 25px 10px 26px 10px;
+    // margin-top: 25px;
+    // margin-bottom: 26px;
+    border-radius: 16px;
     text-align: center;
-    .title{
-      font-size: 14px;
-      color: #FFD100;
-      line-height: 20px;
+    background: #FFFFFF;
+    .download-title{
+      padding-top: 40px;
+      font-size: 18px;
+      color: #FCA5C2;
+      // border: 1px solid red;
+      img{
+        position: absolute;
+        width: 24px;
+        height: 23px;
+        vertical-align: middle;
+        left: 30px;
+        margin-top: 8px;
+        // align-content: center;
+      }
+      .download-text{
+        margin: auto;
+        display: inline-block;
+        width: 200px;
+        height: 36px;
+        border-radius: 17px;
+        border: 1px solid rgba(252,165,194,1);
+        box-shadow: 2px 2px 2px #FCA5C2;
+        line-height: 40px;
+      }
     }
-    .explain-title{
-      font-size: 14px;
-      color: #FFD100;
-      padding: 6px 0;
+    .luck-container{
+      position: relative;
+      // border: 1px solid blueviolet;
+      box-sizing: border-box;
+      margin-top: 5px;
+      img{
+        width: 100%;
+      }
+      .luck-code{
+        position: absolute;
+        // border: 1px solid red;
+        box-sizing: border-box;
+        width: 86px;
+        height: 86px;
+        border-radius: 50%;
+        box-shadow: 0px 2px 19px 0px rgba(229,229,229,0.5);
+        font-size: 14px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+        .code{
+          margin-top: 22px;
+        }
+      }
+      .radius{
+        position: absolute;
+        left: -30px;
+        top: 40px;
+        width: 66px;
+        height: 66px;
+        border-radius: 50%;
+        background: linear-gradient(180deg,rgba(102,209,251,1),rgba(151,221,252,1));
+      }
     }
     .active-rule{
-      color: #333333;
-    }
-    .explain{
-      text-align: left;
-      color: #666666;
-      font-size: 12px;
-
+      margin-top: 10px;
+      font-size: 18px;
+      color: #FCA5C2;
+      // border: 1px solid red;
+      .rule-title{
+        margin: auto;
+        display: inline-block;
+        width: 200px;
+        height: 36px;
+        border-radius: 17px;
+        border: 1px solid rgba(252,165,194,1);
+        box-shadow: 2px 2px 2px #FCA5C2;
+        line-height: 40px;
+      }
+      .explain{
+        list-style: none;
+        text-align: left;
+        margin-left: 30px;
+        margin-top: 20px;
+        color: #666666;
+        font-size: 12px;
+        line-height: 18px;
+        padding-bottom: 15px;
+      }
     }
   }
 }

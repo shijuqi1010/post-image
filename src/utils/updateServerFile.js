@@ -2,11 +2,10 @@
 
 const API_SERVER_PUT_OSS = 'http://upload/upload'
 
-function putFileToServer(fileName, blob, uid, token) {
+function putFileToServer(fileName, blob, token) {
 
   let fromData = new FormData()
 
-  fromData.append('uid', uid)
   fromData.append('token', token)
   fromData.append('object', fileName)
   fromData.append('upload_file', blob)

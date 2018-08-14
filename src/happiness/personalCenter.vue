@@ -1,7 +1,7 @@
 <template>
   <div class="personal-body">
     <div class="personal-header">
-      <img class="back-btn" @click="backHome" src="../assets/demoIcon/箭头@3x.png" alt="">
+      <img class="back-btn" @click="backHome" src="../assets/demoIcon/arrow.png" alt="">
       <span class="title">个人中心</span>
     </div>
 
@@ -38,8 +38,8 @@
           <div class="content-bottom">
             <span class="create-time">{{item.createTime}}</span>
             <span class="del-content" @click="showDeleteConfirm">删除</span>
-            <img class="share" src="../assets/demoIcon/转发@3x.png" alt="转发">
-            <img class="praise" src="../assets/demoIcon/转发@3x.png" alt="点赞">
+            <img class="share" src="../assets/demoIcon/share.png" alt="转发">
+            <img class="praise" src="../assets/demoIcon/heart.png" alt="点赞">
           </div>
         </li>
       </ul>
@@ -207,8 +207,8 @@
             right: 30px;
           }
           .praise{
-            width: 14px;
-            height: 14px;
+            width: 15px;
+            height: 13px;
             position: absolute;
             right: 0px;
           }

@@ -1,13 +1,13 @@
 <template>
   <div class="happiness-body">
     <div class="happiness-header">
-      <img class="back-btn" @click="back" src="../assets/demoIcon/箭头@3x.png" alt="">
+      <img class="back-btn" @click="back" src="../assets/demoIcon/arrow.png" alt="">
       <img class="add-btn" @click="createPhoto" src="../assets/demoIcon/添加@3x.png" alt="">
     </div>
 
     <div class="search-form">
       <!-- <input v-modal="inputCode" class="search-input" placeholder="请输入四位搜索号码"> -->
-      <input class="search-input" placeholder="请输入四位搜索号码..">
+      <input class="search-input" placeholder="请输入四位搜索号码">
       <img class="search-btn" @click="search" src="../assets/demoIcon/搜索@3x.png" alt="">
     </div>
 
@@ -30,8 +30,8 @@
           </div>
           <div class="content-bottom">
             <span class="create-time">{{item.createTime}}</span>
-            <img class="share" src="../assets/demoIcon/转发@3x.png" alt="转发">
-            <img class="praise" src="../assets/demoIcon/转发@3x.png" alt="点赞">
+            <img class="share" src="../assets/demoIcon/share.png" alt="转发">
+            <img class="praise" src="../assets/demoIcon/share.png" alt="点赞">
           </div>
         </li>
       </ul>
@@ -54,9 +54,9 @@
             </ul>
           </div>
           <div class="content-bottom">
-            <span class="create-time">{{item.createTime}}</span>
-            <img class="share" src="../assets/demoIcon/转发@3x.png" alt="转发">
-            <img class="praise" src="../assets/demoIcon/转发@3x.png" alt="点赞">
+            <span class="create-time">{{ item.createTime }}</span>
+            <img class="share" src="../assets/demoIcon/share.png">
+            <img class="praise" src="../assets/demoIcon/heart.png">
           </div>
         </li>
       </ul>
@@ -169,7 +169,7 @@
           position: relative;
           margin-left: 50px;
           display:inline-block;
-          // border:1px solid blue;
+          border:1px solid blue;
           font-size: 12px;
           .user-name{
             line-height: 17px;
@@ -181,7 +181,6 @@
             margin-bottom: 12px;
           }
           .content-photo{
-            // height: 90px;
             list-style: none;
             // display: flex;
             li{
@@ -193,7 +192,7 @@
               .photo{
                 height: 68px;
                 width: auto;
-                // border:1px solid #4C618E;
+                // border: 1px solid #4C618E;
               }
             }
             li:nth-child(2){
@@ -212,14 +211,14 @@
             color: #666666;
           }
           .share{
-            width: 14px;
-            height: 14px;
+            width: 15px;
+            height: 15px;
             position: absolute;
             right: 30px;
           }
           .praise{
-            width: 14px;
-            height: 14px;
+            width: 15px;
+            height: 13px;
             position: absolute;
             right: 0px;
           }
