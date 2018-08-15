@@ -7,12 +7,18 @@
           <div class="content-right">
             <span class="user-name">{{searchInfo.userName}}</span>
             <div class="content-text">{{searchInfo.dataList.contentText}}</div>
-            <ul class="content-photo">
+            <!-- <ul class="content-photo">
               <li v-for="photo in searchInfo.dataList.photoList">
                 <img class="photo" :src="photo" alt="图片">
               </li>
-            </ul>
+            </ul> -->
+            <flexbox class="content-photo" :gutter="2">
+              <flexbox-item v-for="(photo, index) in searchInfo.dataList.photoList" :key="index">
+                <img class="photo" :src="photo" style="width:100%" @click="url = photo"/>
+              </flexbox-item>
+            </flexbox>
           </div>
+
         </li>
         <div class="content-bottom">
           <img class="praise" src="../assets/demoIcon/heart.png" alt="点赞">
@@ -65,7 +71,6 @@
     // border: 1px solid darkblue;
     background: #FFFFFF;
     border-radius: 16px;
-    // margin-top: 204px;
     margin: 204px 10px 0 10px;
     text-align: left;
     list-style: none;
@@ -105,39 +110,33 @@
             margin-bottom: 12px;
           }
           .content-photo{
-            // height: 90px;
             list-style: none;
-            // display: flex;
-            // border: 1px solid aqua;
-            li{
-              display: inline-block;
-              // flex: 1;
-              // justify-content: flex-start;
-              overflow: hidden;
-              // border: 0.1px solid aqua;
-              .photo{
-                height: 90px;
-                width: auto;
-                // border:1px solid #4C618E;
-              }
+            .photo{
+              // height: 80px;
+              width: auto;
             }
-            li:nth-child(2){
-              margin: 0 3px;
-            }
+            // li{
+            //   display: inline-block;
+            //   overflow: hidden;
+            //   .photo{
+            //     height: 90px;
+            //     width: auto;
+            //   }
+            // }
+            // li:nth-child(2){
+            //   margin: 0 3px;
+            // }
           }
         }
       }
       .content-bottom{
         float: right;
-        // margin-left: 50px;
         margin-bottom: 20px;
         font-size: 12px;
         // border: 1px solid darkmagenta;
-        // position: relative;
         .praise{
           width: 15px;
           height: 13px;
-          // position: absolute;
           vertical-align: middle;
           margin-right: 4px;
         }
@@ -150,8 +149,6 @@
   .share-info{
     // border: 1px solid gray;
     margin: 25px 10px 26px 10px;
-    // margin-top: 25px;
-    // margin-bottom: 26px;
     border-radius: 16px;
     text-align: center;
     background: #FFFFFF;
@@ -167,7 +164,6 @@
         vertical-align: middle;
         left: 30px;
         margin-top: 8px;
-        // align-content: center;
       }
       .download-text{
         margin: auto;
@@ -246,12 +242,15 @@
 </style>
 
 <script>
-import { XCircle, XButton, Previewer } from 'vux'
+import { XCircle, XButton, Previewer, Flexbox, FlexboxItem } from 'vux'
+// import { Flexbox, FlexboxItem } from '../flexbox'
 export default {
   components: {
     XCircle,
     XButton,
-    Previewer
+    Previewer,
+    Flexbox,
+    FlexboxItem
   },
   data () {
     return {
@@ -263,6 +262,7 @@ export default {
           contentText: '身体和灵魂总有一个在路上，享受旅行的快乐!',
           photoNum: 3,
           photoList: [
+            'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533894496710&di=8ce5f26e0bcb137b336802a460e27af8&imgtype=0&src=http%3A%2F%2Fimg02.tooopen.com%2Fimages%2F20151217%2Ftooopen_sy_151850658381.jpg',
             'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533894496710&di=8ce5f26e0bcb137b336802a460e27af8&imgtype=0&src=http%3A%2F%2Fimg02.tooopen.com%2Fimages%2F20151217%2Ftooopen_sy_151850658381.jpg',
             'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1533894604290&di=f9ba7e5fdcc4dbf00e7cba78b7b5b45b&imgtype=0&src=http%3A%2F%2Fpic41.nipic.com%2F20140517%2F8540194_144107346109_2.jpg'
           ]

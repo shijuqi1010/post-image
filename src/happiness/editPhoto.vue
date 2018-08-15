@@ -21,6 +21,20 @@
       qq
     </div>
 
+    <div class="upload-box" v-if="showUpload">
+      <vue-core-image-upload
+        :class="['btn', 'upload-box-item']"
+        :crop="false"
+        @imageuploaded="imageuploaded"
+        @imageuploading="imageuploading"
+        @errorhandle="errorhandle"
+        :max-file-size="10485760"
+        inputOfFile="img"
+        :text="uploadText"
+        :url="uploadUrl">
+      </vue-core-image-upload>
+    </div>
+
   </div>
 </template>
 
@@ -87,13 +101,15 @@
 
 <script>
 import { XCircle, XButton, XTextarea } from 'vux'
+import VueCoreImageUpload from 'vue-core-image-upload'
 // import putFileToServer from '../utils/updateServerFile'
 // import Util from '../utils/utils'
 export default {
   components: {
     XCircle,
     XButton,
-    XTextarea
+    XTextarea,
+    VueCoreImageUpload
   },
   data () {
     return {

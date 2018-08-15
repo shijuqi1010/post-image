@@ -1,37 +1,48 @@
 <template>
   <div class="happiness-body">
     <div class="happiness-header">
-      <img class="back-btn" @click="back" src="../assets/demoIcon/arrow.png" alt="">
-      <img class="add-btn" @click="createPhoto" src="../assets/demoIcon/添加@3x.png" alt="">
+      <img class="back-btn" @click="back" src="../assets/demoIcon/arrow.png">
+      <img class="add-btn" @click="createPhoto" src="../assets/demoIcon/create.png">
     </div>
 
     <div class="search-form">
       <!-- <input v-modal="inputCode" class="search-input" placeholder="请输入四位搜索号码"> -->
-      <input class="search-input" placeholder="请输入四位搜索号码">
-      <img class="search-btn" @click="search" src="../assets/demoIcon/搜索@3x.png" alt="">
+      <input class="search-input" placeholder="请输入四位搜索号码" maxlength="4">
+      <img class="search-btn" @click="search" src="../assets/demoIcon/search.png" alt="">
+    </div>
+
+    <div class="banner">
     </div>
 
     <div class="des-info" v-if="searchMode">
       <ul class="photo-list-info">
         <li class="user-info" v-for="(item, listIndex) in searchInfo.dataList">
-          <img class="user-image" :src="searchInfo.userImg" alt="头像">
+          <img class="user-image" :src="searchInfo.userImg" @click="jumpToPersonalCenter">
           <div class="content-right">
             <span class="user-name">{{searchInfo.userName}}</span>
             <div class="content-text">{{item.contentText}}</div>
-            <ul class="content-photo">
-              <!-- <li v-for="photo in item.photoList">
-                <img class="photo" :src="photo" width="100" @click="show(index)" alt="图片">
-              </li> -->
-              <img class="photo" v-for="(previewItem, index) in item.previewerList" :src="previewItem.src" width="100" @click="preview(listIndex, index)">
+            <!-- <ul class="content-photo">
+              <li v-for="(previewItem, index) in item.previewerList" @click="preview(listIndex, index)">
+                <img class="photo" :src="previewItem.src">
+              </li>
               <div v-transfer-dom>
                 <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
               </div>
-            </ul>
+            </ul> -->
+            <flexbox class="content-photo" :gutter="2">
+              <flexbox-item v-for="(previewItem, index) in item.previewerList" :key="index">
+                <img class="photo" v-if="item.photoNum === 1" :src="previewItem.src" style="width:50%" @click="preview(listIndex, index)"/>
+                <img class="photo" v-else :src="previewItem.src" style="width:100%" @click="preview(listIndex, index)"/>
+              </flexbox-item>
+              <div v-transfer-dom>
+                <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
+              </div>
+            </flexbox>
           </div>
           <div class="content-bottom">
             <span class="create-time">{{item.createTime}}</span>
-            <img class="share" src="../assets/demoIcon/share.png" alt="转发">
-            <img class="praise" src="../assets/demoIcon/share.png" alt="点赞">
+            <img class="share" src="../assets/demoIcon/share.png">
+            <img class="praise" src="../assets/demoIcon/heart.png">
           </div>
         </li>
       </ul>
@@ -39,19 +50,27 @@
     <div class="des-info" v-else>
       <ul class="photo-list-info">
         <li class="user-info" v-for="(item, listIndex) in userInfo">
-          <img class="user-image" :src="item.userImg" @click="jumpToPersonalCenter" alt="头像">
+          <img class="user-image" :src="item.userImg" @click="jumpToPersonalCenter">
           <div class="content-right">
             <span class="user-name">{{item.userName}}</span>
             <div class="content-text">{{item.contentText}}</div>
-            <ul class="content-photo">
-              <!-- <li v-for="photo in item.photoList">
-                <img class="photo" :src="photo" alt="图片">
-              </li> -->
-              <img class="photo" v-for="(previewItem, index) in item.previewerList" :src="previewItem.src" width="100" @click="preview(listIndex, index)">
+            <!-- <ul class="content-photo">
+              <li v-for="(previewItem, index) in item.previewerList" @click="preview(listIndex, index)">
+                <img class="photo" :src="previewItem.src">
+              </li>
               <div v-transfer-dom>
                 <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
               </div>
-            </ul>
+            </ul> -->
+            <flexbox class="content-photo" :gutter="2">
+              <flexbox-item v-for="(previewItem, index) in item.previewerList" :key="index">
+                <img class="photo" v-if="item.photoNum === 1" :src="previewItem.src" style="width:50%" @click="preview(listIndex, index)"/>
+                <img class="photo" v-else :src="previewItem.src" style="width:100%" @click="preview(listIndex, index)"/>
+              </flexbox-item>
+              <div v-transfer-dom>
+                <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
+              </div>
+            </flexbox>
           </div>
           <div class="content-bottom">
             <span class="create-time">{{ item.createTime }}</span>
@@ -138,6 +157,11 @@
       cursor: pointer;
     }
   }
+  .banner{
+    margin: 15px 20px 0 20px;
+    height: 120px;
+    background: url("../assets/demoIcon/header-bg.png");
+  }
   .des-info{
     // border: 1px solid red;
     text-align: left;
@@ -155,7 +179,7 @@
         // flex: 1;
         // justify-content: convert;
         overflow: hidden;
-        padding: 15px 0 20px 0;
+        padding: 15px 0 40px 0;
         border-bottom: 1px solid #CECECE;
         .user-image{
           position: absolute;
@@ -169,7 +193,7 @@
           position: relative;
           margin-left: 50px;
           display:inline-block;
-          border:1px solid blue;
+          // border:1px solid blue;
           font-size: 12px;
           .user-name{
             line-height: 17px;
@@ -183,6 +207,12 @@
           .content-photo{
             list-style: none;
             // display: flex;
+            // .photo{
+            //   // max-width: 50%;
+            //   // height: auto;
+            //   // max-height: 90px;
+            //   width: auto;
+            // }
             li{
               display: inline-block;
               // flex: 1;
@@ -190,7 +220,7 @@
               overflow: hidden;
               // border: 0.1px solid aqua;
               .photo{
-                height: 68px;
+                // height: 68px;
                 width: auto;
                 // border: 1px solid #4C618E;
               }
@@ -202,23 +232,24 @@
         }
         .content-bottom{
           margin-left: 50px;
-          margin-bottom: 10px;
+          margin-top: 12px;
           // border: 1px solid yellowgreen;
           position: relative;
           .create-time{
             position: absolute;
             font-size: 10px;
+            line-height: 14px;
             color: #666666;
           }
           .share{
-            width: 15px;
-            height: 15px;
+            width: 14px;
+            height: 14px;
             position: absolute;
-            right: 30px;
+            right: 45px;
           }
           .praise{
             width: 15px;
-            height: 13px;
+            height: 14px;
             position: absolute;
             right: 0px;
           }
@@ -230,7 +261,7 @@
 </style>
 
 <script>
-import { Previewer, TransferDom } from 'vux'
+import { Previewer, TransferDom, Flexbox, FlexboxItem } from 'vux'
 import Axios from 'axios'
 
 export default {
@@ -238,7 +269,9 @@ export default {
     TransferDom
   },
   components: {
-    Previewer
+    Previewer,
+    Flexbox,
+    FlexboxItem
   },
   data () {
     return {
@@ -273,11 +306,6 @@ export default {
         item.previewerList = previewerList
       })
     })
-  },
-  computed: {
-    goalPercent () {
-      return this.totalSteps / 200000 * 100
-    }
   },
   methods: {
     preview (listIndex, index) {
