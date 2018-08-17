@@ -21,28 +21,17 @@
           <div class="content-right">
             <span class="user-name">{{searchInfo.userName}}</span>
             <div class="content-text">{{item.contentText}}</div>
-            <!-- <ul class="content-photo">
-              <li v-for="(previewItem, index) in item.previewerList" @click="preview(listIndex, index)">
-                <img class="photo" :src="previewItem.src">
-              </li>
-              <div v-transfer-dom>
-                <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
-              </div>
-            </ul> -->
             <flexbox class="content-photo" :gutter="2">
               <flexbox-item v-for="(previewItem, index) in item.previewerList" :key="index">
-                <img class="photo" v-if="item.photoNum === 1" :src="previewItem.src" style="width:50%" @click="preview(listIndex, index)"/>
-                <img class="photo" v-else :src="previewItem.src" style="width:100%" @click="preview(listIndex, index)"/>
+                <img class="photo" v-if="item.photoNum === 1" :src="previewItem.src" style="width:60%" @click="preview(previewItem.index)"/>
+                <img class="photo" v-else :src="previewItem.src" style="width:100%" @click="preview(previewItem.index)"/>
               </flexbox-item>
-              <div v-transfer-dom>
-                <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
-              </div>
             </flexbox>
           </div>
           <div class="content-bottom">
             <span class="create-time">{{item.createTime}}</span>
-            <img class="share" src="../assets/demoIcon/share.png">
-            <img class="praise" src="../assets/demoIcon/heart.png">
+            <img class="share" src="../assets/demoIcon/share.png" @click="share">
+            <img class="praise" src="../assets/demoIcon/heart.png" @click="praise">
           </div>
         </li>
       </ul>
@@ -54,31 +43,24 @@
           <div class="content-right">
             <span class="user-name">{{item.userName}}</span>
             <div class="content-text">{{item.contentText}}</div>
-            <!-- <ul class="content-photo">
-              <li v-for="(previewItem, index) in item.previewerList" @click="preview(listIndex, index)">
-                <img class="photo" :src="previewItem.src">
-              </li>
-              <div v-transfer-dom>
-                <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
-              </div>
-            </ul> -->
             <flexbox class="content-photo" :gutter="2">
               <flexbox-item v-for="(previewItem, index) in item.previewerList" :key="index">
-                <img class="photo" v-if="item.photoNum === 1" :src="previewItem.src" style="width:50%" @click="preview(listIndex, index)"/>
-                <img class="photo" v-else :src="previewItem.src" style="width:100%" @click="preview(listIndex, index)"/>
+                <img class="photo" v-if="item.photoNum === 1" :src="previewItem.src" style="width:60%" @click="preview(previewItem.index)"/>
+                <img class="photo" v-else :src="previewItem.src" style="width:100%" @click="preview(previewItem.index)"/>
               </flexbox-item>
-              <div v-transfer-dom>
-                <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
-              </div>
             </flexbox>
           </div>
           <div class="content-bottom">
             <span class="create-time">{{ item.createTime }}</span>
-            <img class="share" src="../assets/demoIcon/share.png">
-            <img class="praise" src="../assets/demoIcon/heart.png">
+            <img class="share" src="../assets/demoIcon/share.png" @click="share">
+            <img class="praise" src="../assets/demoIcon/heart.png" @click="praise">
           </div>
         </li>
       </ul>
+    </div>
+
+    <div v-transfer-dom>
+      <previewer :list="allPreviewerList" ref="previewer" :options="options"></previewer>
     </div>
   </div>
 </template>
@@ -275,6 +257,8 @@ export default {
   },
   data () {
     return {
+      // 保存所有图片for预览
+      allPreviewerList: [],
       options: {
         getThumbBoundsFn (index) {
           let thumbnail = document.querySelectorAll('.photo')[index]
@@ -292,6 +276,8 @@ export default {
   mounted () {
     Axios.get('src/happiness/data.json').then(res => {
       this.userInfo = res.data.userInfo
+      this.allPreviewerList = []// 置空allPreviewerList
+      let index = 0
       this.userInfo.forEach(item => {
         let previewerList = []
         item.photoList.forEach(photoUrl => {
@@ -300,22 +286,25 @@ export default {
           previewer.src = photoUrl
           previewer.w = 800
           previewer.h = 400
+          previewer.index = index++// for图片预览
           previewerList.push(previewer)
+          this.allPreviewerList.push(previewer)// 保存到allPreviewerList
         })
-
         item.previewerList = previewerList
       })
     })
   },
   methods: {
-    preview (listIndex, index) {
-      this.$refs.previewer[listIndex].show(index)
+    preview (index) {
+      this.$refs.previewer.show(index)
     },
     search () {
       this.searchMode = true
       // let url = `src/happiness/data.json?${this.inputCode}`
       Axios.get('src/happiness/data.json').then(res => {
         this.searchInfo = res.data.searchInfo
+        this.allPreviewerList = []// 置空allPreviewerList
+        let index = 0
         this.searchInfo.dataList.forEach(item => {
           let previewerList = []
           item.photoList.forEach(photoUrl => {
@@ -324,9 +313,10 @@ export default {
             previewer.src = photoUrl
             previewer.w = 800
             previewer.h = 400
+            previewer.index = index++// for图片预览
             previewerList.push(previewer)
+            this.allPreviewerList.push(previewer)// 保存到allPreviewerList
           })
-
           item.previewerList = previewerList
         })
       })
@@ -339,6 +329,12 @@ export default {
     },
     jumpToPersonalCenter () {
       this.$router.push({path: '/personalCenter'})
+    },
+    share () {
+      alert('share')
+    },
+    praise () {
+      alert('praise')
     }
   }
 }

@@ -7,21 +7,17 @@
           <div class="content-right">
             <span class="user-name">{{searchInfo.userName}}</span>
             <div class="content-text">{{searchInfo.dataList.contentText}}</div>
-            <!-- <ul class="content-photo">
-              <li v-for="photo in searchInfo.dataList.photoList">
-                <img class="photo" :src="photo" alt="图片">
-              </li>
-            </ul> -->
             <flexbox class="content-photo" :gutter="2">
               <flexbox-item v-for="(photo, index) in searchInfo.dataList.photoList" :key="index">
-                <img class="photo" :src="photo" style="width:100%" @click="url = photo"/>
+                <img class="photo" v-if="searchInfo.dataList.photoNum === 1" :src="photo" style="width:60%"/>
+                <img class="photo" v-else :src="photo" style="width:100%"/>
               </flexbox-item>
             </flexbox>
           </div>
 
         </li>
         <div class="content-bottom">
-          <img class="praise" src="../assets/demoIcon/heart.png" alt="点赞">
+          <img class="praise" src="../assets/demoIcon/heart.png" @click="downLoadApp">
           <span>123</span>
         </div>
       </ul>
@@ -30,7 +26,7 @@
     <div class="share-info">
       <div class="download-title">
         <img src="../assets/demoIcon/pink-heart.png" alt="">
-        <div class="download-text">下载奥悦家为好友点赞</div>
+        <div class="download-text" @click="downLoadApp">下载奥悦家为好友点赞</div>
       </div>
       <div class="luck-container">
         <img src="../assets/demoIcon/bg-luck-code.png" alt="">
@@ -115,17 +111,6 @@
               // height: 80px;
               width: auto;
             }
-            // li{
-            //   display: inline-block;
-            //   overflow: hidden;
-            //   .photo{
-            //     height: 90px;
-            //     width: auto;
-            //   }
-            // }
-            // li:nth-child(2){
-            //   margin: 0 3px;
-            // }
           }
         }
       }
@@ -243,7 +228,7 @@
 
 <script>
 import { XCircle, XButton, Previewer, Flexbox, FlexboxItem } from 'vux'
-// import { Flexbox, FlexboxItem } from '../flexbox'
+import Axios from 'axios'
 export default {
   components: {
     XCircle,
@@ -254,6 +239,7 @@ export default {
   },
   data () {
     return {
+      userInfo: '',
       searchInfo: {
         userImg: 'http://t12.baidu.com/it/u=3593073884,2369230742&fm=173&app=25&f=JPEG?w=500&h=455&s=2AA2C04D041327C61A99F08A03006011',
         userName: 'dou',
@@ -270,33 +256,14 @@ export default {
       }
     }
   },
-  computed: {
-    percent () {
-      if (this.isDonated) {
-        return 0
-      } else {
-        return this.totalSteps / 50000 * 100
-      }
-    },
-    goalPercent () {
-      return this.totalSteps / 200000 * 100
-    }
+  mounted () {
+    Axios.get('src/happiness/data.json').then(res => {
+      this.userInfo = res.data.userInfo
+    })
   },
   methods: {
-    donateSteps () {
-      this.isDonated = true
-      // demo of ajax
-      const Axios = require('axios')
-      Axios.get('http://localhost:8080/package.json')
-      .then(function (response) {
-        console.log(response)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
-    },
-    delContent () {
-      alert('delContent')
+    downLoadApp () {
+      alert('downLoadApp')
     }
   }
 }

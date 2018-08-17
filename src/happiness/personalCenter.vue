@@ -21,24 +21,28 @@
     
     <div class="des-info">
       <ul class="photo-list-info">
-        <li class="user-info" v-for="item in personalInfo.dataList">
-          <img class="user-image" :src="personalInfo.userImg" alt="头像">
+        <li class="user-info" v-for="(item, listIndex) in personalInfo.dataList">
+          <img class="user-image" :src="personalInfo.userImg">
           <div class="content-right">
             <span class="user-name">{{ personalInfo.userName }}</span>
             <div class="content-text">{{ item.contentText }}</div>
-            <ul class="content-photo">
-              <li v-for="photo in item.photoList">
-                <img class="photo" :src="photo" alt="图片">
-              </li>
-            </ul>
+            <flexbox class="content-photo" :gutter="2">
+              <flexbox-item v-for="(photo, index) in item.photoList" :key="index">
+                <img class="photo" v-if="item.photoNum === 1" :src="photo" style="width:60%" @click="preview(listIndex, index)"/>
+                <img class="photo" v-else :src="photo" style="width:100%" @click="preview(listIndex, index)"/>
+              </flexbox-item>
+              <div v-transfer-dom>
+                <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
+              </div>
+            </flexbox>
           </div>
           <div class="content-bottom">
             <span class="create-time">{{ item.createTime }}</span>
             <span class="del-content" @click="showDeleteConfirm">删除</span>
             <div class="right">
-              <img class="share" src="../assets/demoIcon/share.png">
+              <img class="share" src="../assets/demoIcon/share.png" @click="share">
               <div class="praise-container">
-                <img class="praise" src="../assets/demoIcon/heart.png">
+                <img class="praise" src="../assets/demoIcon/heart.png" @click="praise">
                 <span class="praise-number">{{ item.praiseNum }}</span>
               </div>
             </div>
@@ -130,7 +134,7 @@
     display: flex;
     justify-content: space-between;
     .photo-list-info{
-      margin: -10px 20px 1px 20px;
+      margin: -10px 20px 10px 20px;
       // border: 1px solid pink;
       list-style: none;
       .user-info{
@@ -166,20 +170,8 @@
             // height: 90px;
             list-style: none;
             // display: flex;
-            li{
-              display: inline-block;
-              // flex: 1;
-              // justify-content: flex-start;
-              overflow: hidden;
-              // border: 0.1px solid aqua;
-              .photo{
-                height: 68px;
-                width: auto;
-                // border:1px solid #4C618E;
-              }
-            }
-            li:nth-child(2){
-              margin: 0 3px;
+            .photo{
+              width: auto;
             }
           }
         }
@@ -233,24 +225,35 @@
 </style>
 
 <script>
-import { XCircle, XButton, Previewer } from 'vux'
+import { Previewer, TransferDom, Flexbox, FlexboxItem } from 'vux'
 import Axios from 'axios'
 export default {
+  directives: {
+    TransferDom
+  },
   components: {
-    XCircle,
-    XButton,
-    Previewer
+    Previewer,
+    Flexbox,
+    FlexboxItem
   },
   data () {
     return {
       msg: '',
-      personalInfo: ''
+      personalInfo: '',
+      options: {
+        getThumbBoundsFn (index) {
+          let thumbnail = document.querySelectorAll('.photo')[index]
+          let pageYScroll = window.pageYOffset || document.documentElement.scrollTop
+          let rect = thumbnail.getBoundingClientRect()
+          return {x: rect.left, y: rect.top + pageYScroll, w: rect.width}
+        }
+      }
     }
   },
   mounted () {
     Axios.get('src/happiness/data.json').then(res => {
       this.personalInfo = res.data.personalInfo
-      this.userInfo.forEach(item => {
+      this.personalInfo.dataList.forEach(item => {
         let previewerList = []
         item.photoList.forEach(photoUrl => {
           let previewer = {}
@@ -260,7 +263,6 @@ export default {
           previewer.h = 400
           previewerList.push(previewer)
         })
-
         item.previewerList = previewerList
       })
     })
@@ -276,8 +278,20 @@ export default {
         }
       })
     },
+    share () {
+      alert('分享')
+      // axios.post operation
+      // 调用app接口
+    },
+    praise () {
+      alert('点赞')
+      // axios.post operation
+    },
     backHome () {
       this.$router.push({path: '/happiness'})
+    },
+    preview (listIndex, index) {
+      this.$refs.previewer[listIndex].show(index)
     }
   }
 }
