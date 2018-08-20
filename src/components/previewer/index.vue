@@ -18,7 +18,7 @@
       <div class="pswp__ui pswp__ui--hidden">
         <div class="pswp__top-bar">
           <!--  Controls are self-explanatory. Order can be changed. -->
-          <div class="pswp__counter"></div>
+          <div v-show="false" class="pswp__counter"></div>
           <slot name="button-after"></slot>
           <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
           <button class="pswp__button pswp__button--share" title="Share"></button>

@@ -14,7 +14,6 @@ import happiness from './happiness/happiness'
 import editPhoto from './happiness/editPhoto'
 import personalCenter from './happiness/personalCenter'
 import sharePage from './happiness/sharePage'
-import previewer from './demos/previewer'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
@@ -159,10 +158,6 @@ const routes = [{
 {
   path: '/sharePage',
   component: sharePage
-},
-{
-  path: '/previewer',
-  component: previewer
 }]
 
 const router = new VueRouter({

@@ -1,5 +1,6 @@
 <template>
   <div class="share-body">
+    <!-- <img class="img" src="../assets/demoIcon/bg-share.jpg" alt=""> -->
     <div class="des-info">
       <ul class="photo-list-info">
         <li class="user-info">
@@ -61,7 +62,8 @@
   right: 0;
   text-align: center;
   overflow: hidden;
-  background-image: url(../assets/demoIcon/bg-share.jpg);
+  background: url('../assets/demoIcon/bg-share.jpg');
+  // background: url('//img1.aylives.cn/29d48f1a69f149d08042871b239223b1.jpg');
   background-size: 100% 100%;
   .des-info{
     // border: 1px solid darkblue;

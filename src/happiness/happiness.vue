@@ -189,26 +189,8 @@
           .content-photo{
             list-style: none;
             // display: flex;
-            // .photo{
-            //   // max-width: 50%;
-            //   // height: auto;
-            //   // max-height: 90px;
-            //   width: auto;
-            // }
-            li{
-              display: inline-block;
-              // flex: 1;
-              // justify-content: flex-start;
-              overflow: hidden;
-              // border: 0.1px solid aqua;
-              .photo{
-                // height: 68px;
-                width: auto;
-                // border: 1px solid #4C618E;
-              }
-            }
-            li:nth-child(2){
-              margin: 0 3px;
+            .photo{
+              width: auto;
             }
           }
         }

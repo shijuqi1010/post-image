@@ -27,13 +27,10 @@
             <span class="user-name">{{ personalInfo.userName }}</span>
             <div class="content-text">{{ item.contentText }}</div>
             <flexbox class="content-photo" :gutter="2">
-              <flexbox-item v-for="(photo, index) in item.photoList" :key="index">
-                <img class="photo" v-if="item.photoNum === 1" :src="photo" style="width:60%" @click="preview(listIndex, index)"/>
-                <img class="photo" v-else :src="photo" style="width:100%" @click="preview(listIndex, index)"/>
+              <flexbox-item v-for="(previewItem, index) in item.previewerList" :key="index">
+                <img class="photo" v-if="item.photoNum === 1" :src="previewItem.src" style="width:60%" @click="preview(previewItem.index)"/>
+                <img class="photo" v-else :src="previewItem.src" style="width:100%" @click="preview(previewItem.index)"/>
               </flexbox-item>
-              <div v-transfer-dom>
-                <previewer :list="item.previewerList" ref="previewer" :options="options"></previewer>
-              </div>
             </flexbox>
           </div>
           <div class="content-bottom">
@@ -51,15 +48,30 @@
       </ul>
     </div>
 
+    <div v-transfer-dom>
+      <previewer :list="allPreviewerList" ref="previewer" :options="options"></previewer>
+    </div>
+
+    <div v-show="showConfirm" class="confirm">
+      <div class="confirm-box">
+        <p class="confirm-title">提示</p>
+        <p class="confirm-content">确定删除么？</p>
+        <p class="confirm-btn">
+          <span class="btn-cancle" @click="cancle">取消</span>
+          <span class="btn-confirm" @click="delPhoto">确定</span>
+        </p>
+      </div>
+    </div>
+
   </div>
 </template>
 
 <style scoped lang="less">
 .personal-body{
   width: 100%;
-  margin: 0;
+  margin-top: -40px;
   padding: 0;
-  position: absolute;
+  // position: absolute;
   top: 0;
   // bottom: 0;
   left: 0;
@@ -141,11 +153,10 @@
         position: relative;
         // border: 1px solid green;
         overflow: hidden;
-        padding: 15px 0 20px 0;
+        padding: 15px 0 40px 0;
         border-bottom: 1px solid #CECECE;
         .user-image{
           position: absolute;
-          // margin-right: 15px;
           width: 35px;
           height: 35px;
           vertical-align: top;
@@ -167,7 +178,6 @@
             margin-bottom: 12px;
           }
           .content-photo{
-            // height: 90px;
             list-style: none;
             // display: flex;
             .photo{
@@ -177,7 +187,7 @@
         }
         .content-bottom{
           margin-left: 50px;
-          margin-bottom: 10px;
+          margin-top: 12px;
           // border: 1px solid yellowgreen;
           position: relative;
           .create-time{
@@ -221,11 +231,59 @@
       }
     }
   }
+  .confirm{
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow: auto;
+    .confirm-box{
+      position: absolute;
+      width: 250px;
+      height: 156px;
+      background: #FFFFFF;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 14px;
+      color: #666666;
+      border-radius: 6px;
+      z-index: 9999px;
+      .confirm-title{
+        font-size: 20px;
+        color: #333333;
+        margin: 12px 0 20px 20px;
+      }
+      .confirm-content{
+        margin-left: 20px;
+      }
+      .confirm-btn{
+        bottom: -36px;
+        position: relative;
+        .btn-cancle{
+          position: absolute;
+          right: 70px;
+        }
+        .btn-confirm{
+          position: absolute;
+          right: 20px;
+          color: #FFD100;
+        }
+      }
+    }
+  }
 }
 </style>
 
 <script>
 import { Previewer, TransferDom, Flexbox, FlexboxItem } from 'vux'
+// import Happniness from 'happniness.vue'
 import Axios from 'axios'
 export default {
   directives: {
@@ -240,6 +298,8 @@ export default {
     return {
       msg: '',
       personalInfo: '',
+      allPreviewerList: [],
+      showConfirm: false,
       options: {
         getThumbBoundsFn (index) {
           let thumbnail = document.querySelectorAll('.photo')[index]
@@ -253,6 +313,8 @@ export default {
   mounted () {
     Axios.get('src/happiness/data.json').then(res => {
       this.personalInfo = res.data.personalInfo
+      this.allPreviewerList = []
+      let index = 0
       this.personalInfo.dataList.forEach(item => {
         let previewerList = []
         item.photoList.forEach(photoUrl => {
@@ -261,7 +323,9 @@ export default {
           previewer.src = photoUrl
           previewer.w = 800
           previewer.h = 400
+          previewer.index = index++
           previewerList.push(previewer)
+          this.allPreviewerList.push(previewer)
         })
         item.previewerList = previewerList
       })
@@ -269,14 +333,21 @@ export default {
   },
   methods: {
     showDeleteConfirm () {
-      this.$vux.confirm.show({
-        title: '提示',
-        content: '确定删除吗？',
-        onConfirm () {
-          alert('数据已删')
-          // axios.delete operation
-        }
-      })
+      this.showConfirm = true
+      // this.$vux.confirm.show({
+      //   title: '提示',
+      //   content: '确定删除吗？',
+      //   onConfirm () {
+      //     alert('数据已删')
+      //     // axios.delete operation
+      //   }
+      // })
+    },
+    delPhoto () {
+      alert('deletePhoto')
+    },
+    cancle () {
+      this.showConfirm = false
     },
     share () {
       alert('分享')
@@ -290,8 +361,8 @@ export default {
     backHome () {
       this.$router.push({path: '/happiness'})
     },
-    preview (listIndex, index) {
-      this.$refs.previewer[listIndex].show(index)
+    preview (index) {
+      this.$refs.previewer.show(index)
     }
   }
 }
