@@ -14,5 +14,5 @@ cd projectPath
 npm install // or yarn
 npm run dev // or yarn dev
 ```
-# happiness
+#
 npm run build
